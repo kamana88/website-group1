@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - Nairo Games</title>
+
+<style>
+    body {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: white;
+        color:#ffc107;
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    header {
+        background-color: black;
+        color : white;
+        padding: 1em;
+        font-size: 1.5em;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 1em;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 1em;
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    section {
+        padding: 2em;
+    }
+
+    select {
+        padding: 10px;
+        font-size: 1.1em;
+        margin-bottom: 1em;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5em;
+        font-size: 1.2em;
+        color: black;
+    }
+
+    button {
+        background-color: #ffc107;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1em;
+    }
+
+    button:hover {
+        background-color: white;
+        color: #ffc107;
+    }
+
+    footer {
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 1em;
+        /* position: fixed; */
+        bottom: 0;
+        width: 100%;
+        margin-top: 160px;
+
+        font-size: 0.8em;
+    }
+
+    /* Decorative styles for the game interface */
+    #questions {
+        background-color: black;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    h3 {
+        color: white;
+    }
+
+    p {
+        color: #ecf0f1;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    label {
+        margin: 0.5em;
+    }
+
+    input[type="radio"] {
+        margin-right: 0.5em;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+</style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Nairo Games</h1>
+        <nav>
+            <a href="./index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="./games.html">Games</a>
+            <a href="./contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Games Section -->
+    <section>
+        <h2>Choose Your Age Group</h2>
+        <label for="age">Select Age:</label>
+        <select id="age" name="age">
+            <option value="3-6">3-6 years</option>
+            <option value="7-10">7-10 years</option>
+            <option value="11-14">11-14 years</option>
+        </select>
+
+        <button onclick="startGame()">Start Game</button>
+
+        <div id="questions" style="display:none;">
+            <h3>Answer the following questions:</h3>
+            <p id="question"></p>
+            <form id="options">
+                <!-- Radio buttons for options -->
+            </form>
+            <button onclick="checkAnswer()">Submit Answer</button>
+            <p id="result"></p>
+            <button id="nextButton" onclick="showQuestion()">Next Question</button>
+            <p>Score: <span id="score">0</span></p>
+            <button id="buyButton" onclick="buyItem()">Buy Item (10 Points)</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Nairo Games. All rights reserved. | Ready for a gaming adventure?</p>
+    </footer>
+
+    <script>
+        var currentQuestionIndex = 0;
+        var points = 0;
+
+        function startGame() {
+            document.getElementById('questions').style.display = 'block';
+            currentQuestionIndex = 0;
+            points = 0;
+            updateScore();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            var ageGroup = document.getElementById('age').value;
+            var questions = {
+                '3-6': [
+                    {
+                        question: 'What does a red traffic light mean?',
+                        options: ['a) Go', 'b) Slow down', 'c) Stop'],
+                        correctAnswer: 'c'
+                    },
+                    {
+                        question: 'How do you know when it\'s safe to cross the road?',
+                        options: ['a) Ask a friend', 'b) Look both ways and listen', 'c) Close your eyes and run'],
+                        correctAnswer: 'b'
+                    },
+                    // Add more questions for 3-6 age group
+                ],
+                '7-10': [
+                    {
+                        question: 'What does a red traffic light mean?',
+                        options: ['a) Go', 'b) Slow down', 'c) Stop'],
+                        correctAnswer: 'c'
+                    },
+                    {
+                        question: 'When crossing the road, what should you do if there is a crosswalk?',
+                        options: ['a) Skip across quickly', 'b) Use the crosswalk and look both ways', 'c) Walk diagonally'],
+                        correctAnswer: 'b'
+                    },
+                    
+                ],
+                '11-14': [
+                    {
+                        question: 'How can sustainable transportation systems benefit both the enviroment and city dwellers?',
+                        options: ['a) Sustainable transportation is ieffective', 'b) Reduces air polution and traffic congestion, promotes healthier lifestyles', 'c) Sustainable transportation is too epensive'],
+                        correctAnswer: 'b'
+                    },
+                    {
+                        question: 'How can individuals contribute to making their neighborhoods more sustainable',
+                        options: ['a) Individuals cant make a difference', 'b) Engaging in community initiatives', 'c) Sustainability is the governments responsibilities'],
+                        correctAnswer: 'b'
+                    },
+                    
+                ]
+            };
+
+            if (currentQuestionIndex < questions[ageGroup].length) {
+                var randomQuestion = questions[ageGroup][currentQuestionIndex];
+                document.getElementById('question').innerText = randomQuestion.question;
+
+                
+                document.getElementById('options').innerHTML = '';
+
+                
+                randomQuestion.options.forEach((option, index) => {
+                    var radioBtn = document.createElement('input');
+                    radioBtn.type = 'radio';
+                    radioBtn.name = 'answer';
+                    radioBtn.value = String.fromCharCode(97 + index); // Convert index to ASCII character ('a', 'b', 'c', ...)
+                    radioBtn.id = 'option' + index;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'option' + index;
+                    label.appendChild(document.createTextNode(option));
+
+                    document.getElementById('options').appendChild(radioBtn);
+                    document.getElementById('options').appendChild(label);
+                });
+
+                document.getElementById('result').innerText = '';
+                currentQuestionIndex++;
+            } else {
+                // No more questions, display a message or handle game completion
+                document.getElementById('question').innerText = 'Congratulations! You have completed the game.';
+                document.getElementById('options').innerHTML = '';
+                document.getElementById('result').innerText = '';
+                document.getElementById('nextButton').style.display = 'none';
+            }
+        }
+
+        function checkAnswer() {
+            var userAnswer = document.querySelector('input[name="answer"]:checked');
+
+            if (userAnswer) {
+                userAnswer = userAnswer.value;
+                var ageGroup = document.getElementById('age').value;
+                var questions = {
+                    '3-6': [
+                        { correctAnswer: 'c' },
+                        { correctAnswer: 'b' },
+                        
+                    ],
+                    '7-10': [
+                        { correctAnswer: 'c' },
+                        { correctAnswer: 'b' },
+                        
+                    ],
+                    '11-14': [
+                        { correctAnswer: 'b' },
+                        { correctAnswer: 'b' },
+                        
+                    ]
+                };
+
+                var correctAnswer = questions[ageGroup][currentQuestionIndex - 1].correctAnswer;
+
+                var resultElement = document.getElementById('result');
+                if (userAnswer === correctAnswer) {
+                    resultElement.innerText = 'Correct! Well done!';
+                    resultElement.style.color = '#2ecc71'; 
+                    points += 10; 
+                    updateScore();
+                } else {
+                    resultElement.innerText = 'Oops! That\'s not quite right. Try again!';
+                    resultElement.style.color = '#e74c3c'; 
+                }
+            } else {
+                document.getElementById('result').innerText = 'Please select an answer.';
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').innerText = points;
+        }
+
+        function buyItem() {
+            if (points >= 10) {
+                // Deduct points for the purchase
+                points -= 10;
+                updateScore();
+                alert('Item purchased successfully!');
+            } else {
+                alert('Insufficient points. Keep playing to earn more!');
+            }
+        }
+    </script>

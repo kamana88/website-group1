@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Children's Safety Quiz</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 20px;
+            background-color: #f3f3f3;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            /* background-color: #4CAF50; */
+            color: white;
+            font-size: 24px;
+        }
+
+        main {
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #ffc107;
+        }
+
+        #game-container,
+        #quiz-container,
+        #user-info-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            margin-left: 300px;
+        }
+
+        .quiz-question {
+            margin-top: 20px;
+        }
+
+        #score {
+            font-size: 18px;
+            color: #ffc107;
+        }
+
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffc107;
+            margin-top: 10px;
+        }
+
+        #user-info-form input,
+        #user-info-form button {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        #fun-message {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        #quiz-container {
+            display: none;
+        }
+
+        .button {
+            background-color:#ffc107;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+         background-color: #ffc107;
+;
+        }
+    </style>
+
+        <style>
+        
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Arial', sans-serif;
+                overflow-x: hidden;
+            }
+        
+            header {
+                background-color: #050505;
+                color: white;
+                text-align: center;
+                padding: 1em;
+            }
+            header .logo {
+                width: 200px;
+            }
+        
+            nav {
+                display: flex;
+                justify-content: center;
+                margin-top: 1em;
+            }
+        
+            nav a {
+                color: white;
+                text-decoration: none;
+                margin: 0 1em;
+                font-weight: bold;
+                transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) ease-in-out;
+            }
+        
+            nav a:hover{
+                color: #ffc107 ;
+            }
+    
+            footer {
+                background-color:black;
+                color: white;
+                text-align: center;
+                padding: 1em;
+                /* position: fixed; */
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+</head>
+
+<body>
+<!-- Header -->
+<header>
+    <h1>Nairo Game Website </h1>
+    <nav>
+        <a href="./index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="./games.html">Games</a>
+        <a href="./contact.html">Contact</a>
+    </nav>
+</header>
+    <header>
+        <img class="logo" src="./photos/logo-no-background.png" alt="">
+        <h1>Children's Safety On Roads Quiz <img src="./photos/girl-character-7902893_640-removebg-preview (1).png" alt=""></h1>
+    </header>
+
+    <main>
+        <!-- Section for the game container -->
+        <section id="game-container">
+            <h2>Welcome to the Fun and Safe Quiz!</h2>
+            <p>Are you ready to test your knowledge and earn some cool rewards?</p>
+            <button class="button" onclick="startGame()">Start Quiz</button>
+        </section>
+
+        <!-- Section for the quiz container -->
+        <section id="quiz-container">
+            <div id="quiz" class="quiz-question">
+                <h3 id="question"></h3>
+                <button class="button" onclick="checkAnswer('A')" id="choiceA"></button>
+                <button class="button" onclick="checkAnswer('B')" id="choiceB"></button>
+                <button class="button" onclick="checkAnswer('C')" id="choiceC"></button>
+            </div>
+            <p id="score">Score: 0</p>
+            <p id="result"></p>
+            <p id="fun-message"></p>
+
+            <!-- Section for the user information form -->
+            <div id="user-info-form">
+                <h2>Great Job, Superstar!</h2>
+                <p>Enter your name to receive your fantastic prize:</p>
+                <form onsubmit="submitForm(); return false;">
+                    <label for="userName">Name:</label>
+                    <input type="text" id="userName" required>
+                    <button class="button" type="submit">Claim Prize</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Script section for JavaScript -->
+    <script>
+        let score = 0;
+        const pointsPerQuestion = 10;
+        const winningPoints = 50;
+        const moneyPerPoint = 2;
+
+        // Array of 20 questions
+        const questions = [
+          
+
+               {
+                question: "1. What is the most important safety measure for children crossing the road?",
+                choiceA: "Looking at their phone",
+                choiceB: "Using designated crosswalks",
+                choiceC: "Running across as quickly as possible",
+                correct: "B"
+            },
+            {
+                question: "2. How should children behave when riding their bicycles on the road?",
+                choiceA: "Wear headphones for music",
+                choiceB: "Ride against traffic flow",
+                choiceC: "Always wear a helmet and ride with the flow of traffic",
+                correct: "C"
+            },
+            {
+                question: "3. Why is it important for children to be visible to drivers, especially during low light conditions?",
+                choiceA: "Because it's fun",
+                choiceB: "To avoid getting dirty",
+                choiceC: "To prevent accidents by increasing their visibility with reflective clothing or accessories",
+                correct: "C"
+            },
+            {
+                question: "4. When should children be taught about road safety?",
+                choiceA: "Only when they start school",
+                choiceB: "As soon as they can walk",
+                choiceC: "When they become teenagers",
+                correct: "B"
+            },
+            {
+                question: "5. What does the term 'stranger danger' mean in the context of children's safety?",
+                choiceA: "Making friends with everyone",
+                choiceB: "Being cautious around unfamiliar people",
+                choiceC: "Ignoring strangers completely",
+                correct: "B"
+            },
+            {
+                question: "6. Why is it important for children to be aware of their surroundings while walking near roads?",
+                choiceA: "To find interesting things on the ground",
+                choiceB: "To stay engaged in conversation",
+                choiceC: "To anticipate and avoid potential dangers like oncoming traffic",
+                correct: "C"
+            },
+            {
+                question: "7. What should children do if they need to cross the road and there is no crosswalk available?",
+                choiceA: "Cross quickly, looking only to the left",
+                choiceB: "Cross wherever is convenient",
+                choiceC: "Find a designated crosswalk and look both ways before crossing",
+                correct: "C"
+            },
+            {
+                question: "8. Why is it important for children to be cautious around parked cars and driveways?",
+                choiceA: "Because they might find something interesting",
+                choiceB: "To avoid tripping over curbs",
+                choiceC: "Because drivers may not see them when backing out",
+                correct: "C"
+            },
+            {
+                question: "9. How can parents and guardians contribute to children's road safety?",
+                choiceA: "By letting children roam freely",
+                choiceB: "By teaching and modeling safe road behavior",
+                choiceC: "By leaving children to figure it out on their own",
+                correct: "B"
+            },
+            {
+                question: "10. What does the term 'Stop, Look, and Listen' mean in the context of road safety for children?",
+                choiceA: "Instructions for playing a game",
+                choiceB: "A method for crossing roads safely",
+                choiceC: "A traffic signal for children",
+                correct: "B"
+            },
+            {
+                question: "10. Why is it important for children to avoid distractions, such as using electronic devices, while crossing the road?",
+                choiceA: "It makes them look cool",
+                choiceB: "It helps them focus on the road and potential dangers",
+                choiceC: "It's not important; they can multitask safely",
+                correct: "B"
+            },
+            {
+                question: "11. What role does proper car seat usage play in ensuring the safety of young children during travel?",
+                choiceA: "It's unnecessary; children can sit anywhere in the car",
+                choiceB: "It provides a comfortable spot for napping",
+                choiceC: "It provides crucial protection in the event of a collision",
+                correct: "C"
+            },
+            {
+                question: "12. When should children be taught about the importance of using sidewalks?",
+                choiceA: "Only when they start school",
+                choiceB: "As soon as they can walk",
+                choiceC: "When they become teenagers",
+                correct: "B"
+            },
+            {
+                question: "13. What is the significance of teaching children about the meaning of traffic signals and signs?",
+                choiceA: "It's not important; they can learn as they grow older",
+                choiceB: "It helps them understand and follow road rules",
+                choiceC: "Traffic signals are only for adults",
+                correct: "B"
+            },
+            {
+                question: "14. Why should children be encouraged to wear bright and reflective clothing, especially during low-light conditions?",
+                choiceA: "To show off their fashion sense",
+                choiceB: "To increase visibility and reduce the risk of accidents",
+                choiceC: "It doesn't matter; clothing has no impact on safety",
+                correct: "B"
+            },
+            {
+                question: "15. What is the 'two-second rule' when it comes to pedestrian safety?",
+                choiceA: "It's a dance move for crossing the road",
+                choiceB: "It's the time limit for crossing the street",
+                choiceC: "It's a guideline for maintaining a safe following distance from vehicles",
+                correct: "C"
+            },
+            {
+                question: "16. How can children contribute to creating a safer environment around their school zones?",
+                choiceA: "By ignoring traffic rules",
+                choiceB: "By playing near the road for attention",
+                choiceC: "By following and promoting safe road behaviors",
+                correct: "C"
+            },
+            {
+                question: "17. Why is it essential for children to be mindful of parked cars and avoid playing in or around them?",
+                choiceA: "Because it's a fun hiding spot",
+                choiceB: "To prevent accidents like sudden car movements",
+                choiceC: "Because cars are meant for playing on",
+                correct: "B"
+            },
+            {
+                question: "18. What is the 'Stop, Look, and Listen' method for pedestrian safety?",
+                choiceA: "Checking social media while crossing the road",
+                choiceB: "A technique for crossing roads safely",
+                choiceC: "A game played at crosswalks",
+                correct: "B"
+            },
+            {
+                question: "19. How does wearing helmets contribute to bicycle safety for children?",
+                choiceA: "It's a fashion statement",
+                choiceB: "It prevents helmet hair",
+                choiceC: "It provides crucial head protection in case of a fall or collision",
+                correct: "C"
+            },
+            {
+                question: "20. Why is it important for children to use crosswalks when crossing the street?",
+                choiceA: "Crosswalks are more colorful",
+                choiceB: "To avoid jaywalking tickets",
+                choiceC: "To cross in designated safe areas with increased visibility",
+                correct: "C"
+            },
+        ];
+
+        
+
+        let currentQuestion = 0;
+        let userName = "";
+
+        function startGame() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question').innerText = q.question;
+            document.getElementById('choiceA').innerText = `A) ${q.choiceA}`;
+            document.getElementById('choiceB').innerText = `B) ${q.choiceB}`;
+            document.getElementById('choiceC').innerText = `C) ${q.choiceC}`;
+        }
+
+        function checkAnswer(answer) {
+            const q = questions[currentQuestion];
+            if (answer === q.correct) {
+                score += pointsPerQuestion;
+                document.getElementById('fun-message').innerText = "Awesome! You got it right!";
+            } else {
+                document.getElementById('fun-message').innerText = "Oops! That's not quite right. Don't worry, try again!";
+            }
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                endGame();
+            }
+            document.getElementById('score').innerText = 'Score: ' + score;
+        }
+
+        function endGame() {
+            const moneyEarned = score * moneyPerPoint;
+            document.getElementById('result').innerText = `Congratulations, ${userName}! You've earned $${moneyEarned}. You can use it to buy something special!`;
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('user-info-form').style.display = 'block';
+        }
+
+        function submitForm() {
+            userName = document.getElementById('userName').value;
+            document.getElementById('user-info-form').innerHTML = `<h2>Thank you, ${userName}! Enjoy your awesome prize!</h2>`;
+        }
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Nairo Game Website. All rights reserved.</p>
+    </footer>
+
+
+</body>
+
+</html>
